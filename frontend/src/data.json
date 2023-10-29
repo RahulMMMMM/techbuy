@@ -1,0 +1,39 @@
+[
+  {
+    "image":"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6523/6523167_rd.jpg;maxHeight=640;maxWidth=550",
+    "title":"Sony Playstation 5 Console",
+    "rating":5,
+    "price":499.99,
+    "id":"price_1O3h05B4WKiOZKxWMuB1qlPk"
+  },
+  {
+    "image":"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6524/6524719_sd.jpg;maxHeight=416;maxWidth=694",
+    "title":"Sony - Alpha 7R V Full-frame Mirrorless Camera with Interchangeable Lens (Body Only) - Black",
+    "rating":4.5,
+    "price":3899.99,
+    "id":"price_1O3h0rB4WKiOZKxWJVHYOqrq"
+  },
+  {
+    "image":"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6544/6544302cv1d.jpg;maxHeight=640;maxWidth=550" ,
+    "title":"Amazon - Echo Pop (1st Generation) Smart Speaker with Alexa - Charcoal",
+    "rating":5,
+    "price":17.99,
+    "id":"price_1O3h1UB4WKiOZKxW6fl7myCK"
+  },
+  {
+    "image":"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6553/6553000_rd.jpg;maxHeight=200;maxWidth=300" ,
+    "title":"CyberPowerPC - Gamer Master Gaming Desktop - AMD Ryzen 7 7700 - 16GB Memory - NVIDIA GeForce RTX 4060 Ti - 2TB SSD - White",
+    "rating":4.5,
+    "price":1174.99,
+    "id":"price_1O3h1mB4WKiOZKxWkqnymLnp"
+  },
+  {
+    "image":"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6530/6530836_sd.jpg;maxHeight=200;maxWidth=300" ,
+    "title":"Alienware - Aurora R15 Gaming Desktop - 13th Gen Intel Corei9 13900KF- 32GB - NVIDIA GeForce RTX 4080 - 1TB SSD - Liquid Cooling - Lunar Light" ,
+    "rating":5,
+    "price":3099.99,
+    "id":"price_1O3h2IB4WKiOZKxWsfM1aY7G"
+  }
+
+
+]

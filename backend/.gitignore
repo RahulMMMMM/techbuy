@@ -1,0 +1,6 @@
+.env
+config/
+controllers/
+models/
+routes/
+node_modules
