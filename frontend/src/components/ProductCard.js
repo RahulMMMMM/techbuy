@@ -1,7 +1,7 @@
 import { Rating } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useContext, useState } from "react";
-import {CartContext} from "../CartContext";
+import {CartContext} from "../Context/CartContext";
 
 
 

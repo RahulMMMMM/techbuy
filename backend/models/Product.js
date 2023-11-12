@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
     stripe_id:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     title:{
         type:String,

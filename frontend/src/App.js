@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Cart from "./pages/Cart";
 import Computer from "./pages/Computer";
@@ -7,14 +6,17 @@ import Home from "./pages/Home";
 import Phone from "./pages/Phone";
 import Tv from "./pages/Tv";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CartProvider from "./CartContext";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import CartProvider from "./Context/CartContext";
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
+import { AuthContextProvider } from "./Context/AuthContext";
+import Dashboard from "./Account/Dashboard";
 
 
 export default function App() {
 
   return (
+    <AuthContextProvider>
     <CartProvider>
       <BrowserRouter>
         <>
@@ -33,12 +35,14 @@ export default function App() {
               <Route path="cart" element={<Cart />} />
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
+              <Route path="myaccount/dashboard" element={<Dashboard />} />
             </Routes>
           </div>
         </>
 
       </BrowserRouter>
     </CartProvider>
+    </AuthContextProvider>
   );
 }
 

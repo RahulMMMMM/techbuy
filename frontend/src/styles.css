@@ -348,3 +348,7 @@ button:hover {
 .signup-box p{
     margin-right: 10px;
 }
+
+.errmsg{
+    color: rgb(189, 26, 26);
+}

@@ -1,9 +1,55 @@
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const path = require('path');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
+const cookieParser = require('cookie-parser');
+
+connectDB();
+
+app.use(express.json())
+
+const whitelist = ['http://localhost:4000','http://localhost:3000'];
+const corsOptions={
+    origin:(origin,callback)=>{
+        if(whitelist.indexOf(origin)!==-1||!origin){
+            callback(null,true)
+        }
+        else{
+            callback(new Error('Not allowed'));
+        }        
+    },
+    optionsSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
+app.use(cookieParser());
+
+app.use('/auth', require('./routes/authRoutes'))
+app.use('/users', require('./routes/userRoutes'))
+app.use('/products', require('./routes/productRoutes'))
+
+app.use(function(err,req,res,next){
+    res.status(500).send(err.message);
+})
+
+mongoose.connection.once('open',()=>{
+    console.log('Connected to Mongodb')
+    app.listen(4000, ()=>console.log("listening on port 4000"))
+})
+ 
+
+
+
+
+
+/* const express = require("express");
 const cors = require("cors");
 const stripe = require('stripe')('sk_test_51O3gwlB4WKiOZKxWeKtvw4UUXL5VVNaUIgXuDmwPDG0k0IdcuKZh85zlZ9tq8K0SF7SXfpEcBTyJziTSAr4IQ4Uh009a18j4zG');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt')
-
 const app = express();
 app.use(cors());
 app.use(express.static("public"));
@@ -97,55 +143,7 @@ app.post("/checkout", async (req, res)=>{
         url: session.url
     }));
 
-});
-
-app.listen(4000, ()=>console.log("listening on port 4000"));
-
-
-/* require('dotenv').config();
-const express = require('express');
-const app = express();
-const path = require('path');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const connectDB = require('./config/dbConn');
-const cookieParser = require('cookie-parser');
-
-connectDB();
-
-app.use(express.json())
-
-const whitelist = ['http://localhost:4000','http://localhost:3000'];
-const corsOptions={
-    origin:(origin,callback)=>{
-        if(whitelist.indexOf(origin)!==-1||!origin){
-            callback(null,true)
-        }
-        else{
-            callback(new Error('Not allowed'));
-        }        
-    },
-    optionsSuccessStatus:200
-}
-app.use(cors(corsOptions));
-
-app.use(cookieParser());
-
-app.get('/',(req,res)=>{
-    res.send('Hello');
-})
-
-app.use(function(err,req,res,next){
-    res.status(500).send(err.message);
-})
-
-mongoose.connection.once('open',()=>{
-    console.log('COnnected to Mongodb')
-    app.listen(4000, ()=>console.log("listening on port 4000"))
-})
- */
-
-
+}); */
 
 
 

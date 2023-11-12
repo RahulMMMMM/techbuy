@@ -9,7 +9,6 @@ export default function Home() {
   useEffect(()=>{
     axios.get("http://localhost:4000/products")
     .then((res)=>{
-      console.log(res.data)
       setProducts(res.data)
     })
     .catch((err)=>{
@@ -24,7 +23,7 @@ export default function Home() {
         <div className="product-container"> 
           {products.map((product)=>{
             return(
-              <ProductCard image={product.product_image_src} title={product.product_title} rating={product.product_rating} price={product.product_price}  id={product.product_id}  />
+              <ProductCard image={product.image_src} title={product.title} rating={product.rating} price={product.price}  id={product.stripe_id}  />
             );
           })}
         </div>
