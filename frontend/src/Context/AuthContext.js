@@ -1,12 +1,29 @@
-import {createContext, useReducer, useState} from 'react';
+import {createContext , useState, useEffect} from 'react';
 
 export const AuthContext = createContext({});
+
 
 
 
 export const AuthContextProvider = ({children}) => {
     const [auth,setAuth] = useState({});
 
+    const [authInfo,setAuthInfo] = useState({});
+
+    useEffect(() => {
+        const authData = localStorage.getItem("cart");
+        if(authData){
+            setAuthInfo(JSON.parse(authData));
+        }
+        
+    }, []);
+    
+    useEffect(() => {
+        localStorage.setItem("userInfo", JSON.stringify({
+            "firstname": auth.firstname,
+            "email": auth.email
+        }));
+    }, [auth]);
 
     return(
         <AuthContext.Provider value={{auth,setAuth}}>
@@ -17,18 +34,3 @@ export const AuthContextProvider = ({children}) => {
 
 
 
-/* 
-export const authReducer = (state,action) =>{
-    switch (action.type){
-        case 'LOGIN':
-            return {user: action.payload}
-        case 'LOGOUT':
-            return {user: null}
-        default:
-            return state
-    }
-}
-
-const [state, dispatch] = useReducer(authReducer, {
-    user:null
-}) */

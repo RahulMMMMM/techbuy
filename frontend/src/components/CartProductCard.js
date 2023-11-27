@@ -18,7 +18,7 @@ export default function CartProductCard(props){
                 </select> */}
                 <button onClick={()=>cart.deleteFromCart(props.id)} >Remove</button>
             </div>
-            
+            <h2>Quantity: {cart.getProductQuantity(props.id)}</h2>
             <h2 className="cart-product-price" >${props.price}</h2>
         </div>
     )

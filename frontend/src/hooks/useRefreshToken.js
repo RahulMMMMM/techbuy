@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import useAuth from "./useAuth";
+import axios from 'axios'
+import { AuthContext } from "../Context/AuthContext";
 
-const useAuth = () => {
-    const {setAuth} = useAuth();
+const useRefreshToken = () => {
+    const {setAuth} = useContext(AuthContext);
 
     const refresh = async () => {
-        const response = await axios.get('/refresh');
+        const response = await axios.get('localhost:4000/refresh');
         setAuth(prev=>{
             return {...prev, accessToken:response.data.accessToken}
         });

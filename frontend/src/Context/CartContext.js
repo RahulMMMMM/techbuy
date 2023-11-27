@@ -21,7 +21,6 @@ export default function CartProvider({children}) {
     useEffect(() => {
         const cartData = localStorage.getItem("cart");
         if(cartData){
-            console.log(JSON.parse(cartData));
             setCart(JSON.parse(cartData));
         }
         
@@ -39,8 +38,6 @@ export default function CartProvider({children}) {
     function addOneToCart(id){
         const quantity = getProductQuantity(id)
         const product = data.find(product=>product.id===id)
-        console.log(quantity)
-        console.log(product)
         if(quantity==undefined){
             setCart([...cart,{
                 ...product,
@@ -91,6 +88,10 @@ export default function CartProvider({children}) {
         })
     }
 
+    function getCartQuantity(){
+        return cart.reduce((sum, product)=> sum + product.quantity,0);
+    }
+
     const contextValue = {
         cart,
         getProductQuantity,
@@ -98,7 +99,8 @@ export default function CartProvider({children}) {
         removeOneFromCart,
         deleteFromCart,
         getCartTotal,
-        changeQuantity
+        changeQuantity,
+        getCartQuantity
     }
 
     return(

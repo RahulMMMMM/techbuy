@@ -37,7 +37,6 @@ export default function Login() {
             const accessToken = response?.data?.accessToken;
             const firstname = response?.data?.firstname;
             const lastname = response?.data?.lastname;
-            
             setAuth({email,password,accessToken,firstname,lastname});
             setEmail('');
             setPassword('');

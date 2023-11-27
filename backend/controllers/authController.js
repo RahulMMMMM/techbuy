@@ -21,7 +21,8 @@ const login = asyncHandler(async (req,res)=>{
     const accessToken = jwt.sign(
         {
             "UserInfo":{
-                "email": user.email
+                "email": user.email,
+                "password": user.password
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -66,7 +67,6 @@ const refresh = (req,res) =>{
                 {
                     "UserInfo": {
                         "email": foundUser.email,
-                        "roles": foundUser.roles
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,

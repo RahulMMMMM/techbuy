@@ -8,6 +8,15 @@ const getProducts = asyncHandler(async (req, res)=>{
     res.status(200).json(products);
 })
 
+const getProductById = asyncHandler(async (req, res)=>{
+    const {id} = req.query;
+    const product = await Product.findOne({"stripe_id":id}).exec();
+    if(product===null){
+        res.status(400).json({error: "Products does not exist"});
+    }
+    res.status(200).json(product);
+})
+
 const addProducts = asyncHandler(async (req, res)=>{
     const {products} = req.body;
     var productsData
@@ -30,5 +39,6 @@ const addProducts = asyncHandler(async (req, res)=>{
 
 module.exports = {
     getProducts,
+    getProductById,
     addProducts
 }

@@ -11,11 +11,16 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { AuthContextProvider } from "./Context/AuthContext";
 import Dashboard from "./Account/Dashboard";
+import PersistLogin from "./components/PersistLogin";
+import Logout from "./auth/Logout";
+import ProductPage from "./pages/ProductPage";
+import ProductProvider from "./Context/ProductContext";
 
 
 export default function App() {
 
   return (
+    <ProductProvider>
     <AuthContextProvider>
     <CartProvider>
       <BrowserRouter>
@@ -26,6 +31,7 @@ export default function App() {
           <Navbar />
           <div>
             <Routes>
+              {/*Public routes*/}
               <Route exact path="/" element={<Home  />} />
               <Route path="deals" element={<Deals />} />
               <Route path="computers" element={<Computer/>} />
@@ -34,8 +40,15 @@ export default function App() {
               <Route path="cart" element={<Cart />} />
               <Route path="cart" element={<Cart />} />
               <Route path="login" element={<Login />} />
+              <Route path="product" element={<ProductPage/>} />
               <Route path="signup" element={<Signup />} />
-              <Route path="myaccount/dashboard" element={<Dashboard />} />
+
+              {/*Protected routes*/}
+              <Route element={<PersistLogin />}>
+                <Route path="myaccount/dashboard" element={<Dashboard />} />
+                <Route path="myaccount/logout" element={<Logout />} />
+              </Route>         
+
             </Routes>
           </div>
         </>
@@ -43,6 +56,8 @@ export default function App() {
       </BrowserRouter>
     </CartProvider>
     </AuthContextProvider>
+    </ProductProvider>
+    
   );
 }
 

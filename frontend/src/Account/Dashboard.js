@@ -1,12 +1,12 @@
-import { useState } from "react";
-import useAuth from "../hooks/useAuth";
+import { useContext, useState } from "react";
+import { AuthContext } from "../Context/AuthContext";
 
 
 const Dashboard = () =>{
-    const auth = useAuth();
+    const authInfo = useContext(AuthContext);
 
     return(
-        <p>Hello {auth.firstname}</p>
+        <p>Hello {authInfo.firstname}</p>
     )
 }
 
