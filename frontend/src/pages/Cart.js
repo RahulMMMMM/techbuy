@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import CartProductCard from "../components/CartProductCard";
 import { CartContext } from "../Context/CartContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import SavedProductCard from "../components/SavedProductCard";
 
 
 export default function Cart(){
@@ -37,15 +38,36 @@ export default function Cart(){
 
     return(
         <div className="cart-container">
-            <div className="cart-product-container">
-                <h2 className="your-cart"> Your Cart</h2>
-                {cart.cart.map((product)=>{
-                    return(
-                        
-                        <CartProductCard image={product.image} title={product.title} price={product.price} quantity={product.quantity} 
-                        id={product.id} />
-                    )
-                })}
+            <div className="cart-saved-container">
+                <div className="cart-product-container">
+                    <h2 className="your-cart">Your Cart</h2>
+                    {
+                        cart.cart.length > 0 ?
+                        cart.cart.map((product)=>{
+                            return(
+                                
+                                <CartProductCard image={product.image_src} title={product.title} price={product.price} quantity={product.quantity} 
+                                id={product._id} stripe_id={product.stripe_id} />
+                            )
+                        }) : 
+                        (
+                            <div className="empty-product-card-container">
+                                <h1>Your Cart is Empty.</h1>
+                                <p>Check your Saved for later items below or <Link to="/">continue shopping.</Link></p>
+                            </div>
+                        )
+                    }
+                </div>
+                <div className="saved-product-container">
+                    <h2 className="your-cart">Saved For Later</h2>
+                    {cart.saved.map((product)=>{
+                        return(
+                            
+                            <SavedProductCard image={product.image_src} title={product.title} price={product.price} quantity={product.quantity} 
+                            id={product._id} stripe_id={product.stripe_id} />
+                        )
+                    })}
+                </div>
             </div>
             <div className="cart-info">
                 <h1>Order Summary</h1>

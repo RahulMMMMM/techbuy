@@ -10,7 +10,7 @@ const getProducts = asyncHandler(async (req, res)=>{
 
 const getProductById = asyncHandler(async (req, res)=>{
     const {id} = req.query;
-    const product = await Product.findOne({"stripe_id":id}).exec();
+    const product = await Product.findOne({"_id":id}).exec();
     if(product===null){
         res.status(400).json({error: "Products does not exist"});
     }
@@ -25,7 +25,7 @@ const addProducts = asyncHandler(async (req, res)=>{
     }
     else{
         productsData = products.map(item => ({
-            stripe_id: item.id,
+            stripe_id: item.stripe_id,
             title: item.title,
             rating: item.rating,
             price: item.price,

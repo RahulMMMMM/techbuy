@@ -21,20 +21,8 @@ export default function Navbar(props){
         <>
         <nav className='navbar'>
             <a href='/' onClick={()=>{setCurSection("")}} ><img src={logo} className='logo' /></a>
-            <ul className='link-container'>
-                <li className={curSection==='deal' ? "active" : "" }>
-                    <Link to='/deals' onClick={()=>{setCurSection("deal")}} >Todays Deals!</Link>
-                </li>
-                <li className={curSection==='tv' ? "active" : "" }>
-                    <Link to='/tvs' onClick={()=>{setCurSection("tv")}} >TVs</Link>
-                </li>
-                <li className={curSection==='computer' ? "active" : "" }>
-                    <Link to='/computers' onClick={()=>{setCurSection("computer")}} >Computers</Link>
-                </li>
-                <li className={curSection==='phone' ? "active" : "" } >
-                    <Link to='/phones' onClick={()=>{setCurSection("phone")}} >Phones and Tablets</Link>
-                </li>
-            </ul>
+            
+               
             <form className='search-form'>
                 <input type='text' placeholder=' Search anything!' className='searchbox' />
                 <button type='submit' className='search-button'><SearchIcon /></button>

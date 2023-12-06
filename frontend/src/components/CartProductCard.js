@@ -7,7 +7,7 @@ export default function CartProductCard(props){
     return(
         <div className="cart-product-card-container">
             <img src={props.image} className="cart-product-image" />
-            <a className="cart-product-title" href="" >{props.title}</a>
+            <a className="cart-product-title" href={`/product?id=${props.id}`} >{props.title}</a>
             <div className="quantity-form" >
                 {/* <select onChange={(event)=>cart.changeQuantity(props.id,event.target.value)} >
                     <option value={1} selected={1===props.quantity? "selected" : ""} >1</option>
@@ -17,6 +17,7 @@ export default function CartProductCard(props){
                     <option value={5} selected={5===props.quantity? "selected" : ""}>5</option>
                 </select> */}
                 <button onClick={()=>cart.deleteFromCart(props.id)} >Remove</button>
+                <button onClick={()=>cart.saveForLater(props.id,cart.getProductQuantity(props.id))} >Save For Later</button>
             </div>
             <h2>Quantity: {cart.getProductQuantity(props.id)}</h2>
             <h2 className="cart-product-price" >${props.price}</h2>

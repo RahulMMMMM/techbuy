@@ -14,13 +14,14 @@ import Dashboard from "./Account/Dashboard";
 import PersistLogin from "./components/PersistLogin";
 import Logout from "./auth/Logout";
 import ProductPage from "./pages/ProductPage";
-import ProductProvider from "./Context/ProductContext";
+import Footer from "./components/Footer";
+
 
 
 export default function App() {
 
   return (
-    <ProductProvider>
+    
     <AuthContextProvider>
     <CartProvider>
       <BrowserRouter>
@@ -51,12 +52,13 @@ export default function App() {
 
             </Routes>
           </div>
+          <Footer />
         </>
 
       </BrowserRouter>
     </CartProvider>
     </AuthContextProvider>
-    </ProductProvider>
+   
     
   );
 }

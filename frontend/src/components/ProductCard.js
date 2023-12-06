@@ -16,7 +16,7 @@ export default function ProductCard({image,title,rating,price,id}){
         <div className="card-container">
             <img className="card-image" src={image} />
             <Link className="card-name" to={`/product?id=${id}`} >{title}</Link>
-            <Rating size="small" defaultValue={rating} precision={0.5} readOnly/>
+            <Rating size="small" value={rating} precision={0.5} readOnly/>
             <h1 className="card-price">{"$"+price}</h1>
             <button className="atc-button" onClick={()=>{cart.addOneToCart(id)}} ><ShoppingCartIcon/><h3>Add to Cart</h3></button>
         </div>

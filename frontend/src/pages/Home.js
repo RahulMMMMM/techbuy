@@ -19,7 +19,7 @@ export default function Home() {
         <div className="product-container"> 
           {products.map((product)=>{
             return(
-              <ProductCard key={product.stripe_id} image={product.image_src} title={product.title} rating={product.rating} price={product.price}  id={product.stripe_id}  />
+              <ProductCard key={product.id} image={product.image_src} title={product.title} rating={product.rating} price={product.price}  stripe_id={product.stripe_id} id={product._id} />
             );
           })}
         </div>

@@ -43,7 +43,7 @@ app.post("/checkout", async (req, res)=>{
   items.forEach((item) => {
       lineItems.push(
           {
-              price: item.id,
+              price: item.stripe_id,
               quantity: item.quantity
           }
       )
