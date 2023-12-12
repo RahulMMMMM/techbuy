@@ -7,27 +7,27 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const cookieParser = require('cookie-parser');
 const stripe = require('stripe')(process.env.STRIPE_ID);
+const session = require('express-session');
 
+//middleware
 connectDB();
 
 app.use(express.json())
-
-const whitelist = ['http://localhost:4000','http://localhost:3000'];
-const corsOptions={
-    origin:(origin,callback)=>{
-        if(whitelist.indexOf(origin)!==-1||!origin){
-            callback(null,true)
-        }
-        else{
-            callback(new Error('Not allowed'));
-        }        
-    },
-    optionsSuccessStatus:200
-}
-app.use(cors(corsOptions));
-
 app.use(cookieParser());
 
+
+
+app.use(
+    cors({
+      origin: ["http://localhost:3000"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true,
+    })
+);
+
+
+
+//routing
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
 app.use('/products', require('./routes/productRoutes'))
@@ -35,6 +35,7 @@ app.use('/products', require('./routes/productRoutes'))
 app.use(function(err,req,res,next){
     res.status(500).send(err.message);
 })
+
 
 //payment
 app.post("/checkout", async (req, res)=>{
@@ -56,9 +57,7 @@ app.post("/checkout", async (req, res)=>{
       cancel_url: "http://localhost:3000/cart"
   })
 
-  res.send(JSON.stringify({
-      url: session.url
-  }));
+  
 
 }); 
 

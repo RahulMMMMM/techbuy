@@ -11,11 +11,11 @@ import { AuthContext } from '../Context/AuthContext';
 export default function Navbar(props){
     const cart = useContext(CartContext);
     const [curSection, setCurSection] = useState("");
-    const {authInfo} = useContext(AuthContext);
+    const auth = useContext(AuthContext);
 
     const cartQuantity = cart.getCartQuantity();
 
-    
+
 
     return(
         <>
@@ -28,7 +28,7 @@ export default function Navbar(props){
                 <button type='submit' className='search-button'><SearchIcon /></button>
             </form>
             <div className='left-navbar-container'>
-                <Link to='/login' className='cart-link-container' >
+                <Link to='myaccount/dashboard' className='cart-link-container' >
                     <AccountCircleIcon  style={{fontSize: "2rem"}} />
                     <a>Account</a>
                 </Link>

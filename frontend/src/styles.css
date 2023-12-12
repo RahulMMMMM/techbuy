@@ -3,6 +3,8 @@ body,html{
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
+    min-height: 100%;
+    background-color: #131a22;
 }
 
 button{
@@ -183,6 +185,7 @@ button:hover {
 .home-container{
     display: flex;
     justify-content: center;
+    background-color: white;
 }
 
 .empty-product-card-container{
@@ -238,7 +241,7 @@ button:hover {
     display: flex;
     flex-direction: row;
     background-color: #f0f2f4;
-    min-height: 100%;
+    /* min-height: 100%; */
     padding: 50px;
 }
 
@@ -404,6 +407,7 @@ button:hover {
     justify-content: center;
     min-width: 100%;
     padding: 100px;
+    background-color: white;
 }
 
 .product-image-container{
@@ -437,6 +441,7 @@ button:hover {
     margin: 0px;
     padding-bottom: 0px;
     position: relative;
+    /* bottom: 0; */
 }
 
 .footer-container a{

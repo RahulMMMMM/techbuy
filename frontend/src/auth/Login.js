@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import { useRef,useState,useEffect,useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "../api/Axios";
 const LOGIN_URL = '/auth/login';
 
 export default function Login() {
-    const {auth,setAuth} = useContext(AuthContext);
+    const auth = useContext(AuthContext);
     const emailRef = useRef();
     const errRef = useRef();
-    
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,6 +23,7 @@ export default function Login() {
         setErrMsg('');
     }, [email, password]) 
 
+ 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         
@@ -30,17 +32,18 @@ export default function Login() {
                 { email, password },
                 {
                     headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
                    
                 }
             );
 
-            const accessToken = response?.data?.accessToken;
+            const useremail = response?.data?.email;
             const firstname = response?.data?.firstname;
             const lastname = response?.data?.lastname;
-            setAuth({email,password,accessToken,firstname,lastname});
+            auth.setAuthInfo(useremail,firstname,lastname);
             setEmail('');
             setPassword('');
-            window.location.assign('http://localhost:3000/');
+            navigate('/');
         } catch(err){
             const errorMsg = err.response.data.message;
             setErrMsg(errorMsg);

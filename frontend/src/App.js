@@ -11,10 +11,10 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { AuthContextProvider } from "./Context/AuthContext";
 import Dashboard from "./Account/Dashboard";
-import PersistLogin from "./components/PersistLogin";
 import Logout from "./auth/Logout";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
+import UserRoute from "./components/UserRoute";
 
 
 
@@ -44,11 +44,12 @@ export default function App() {
               <Route path="product" element={<ProductPage/>} />
               <Route path="signup" element={<Signup />} />
 
-              {/*Protected routes*/}
-              <Route element={<PersistLogin />}>
-                <Route path="myaccount/dashboard" element={<Dashboard />} />
-                <Route path="myaccount/logout" element={<Logout />} />
-              </Route>         
+              {/*Private routes*/}
+              <Route path="myaccount" element={<UserRoute />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="logout" element={<Logout />} />
+              </Route>
+                
 
             </Routes>
           </div>
