@@ -2,20 +2,24 @@ import { useContext } from "react";
 import axios from "../api/Axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import { CartContext } from "../Context/CartContext";
 
 export default function Logout() {
     const navigate = useNavigate();
     const auth = useContext(AuthContext);
+    const cart = useContext(CartContext);
 
     const logout = async () =>{
         try{
-            auth.deleteAll();
             const response = await axios.post('/auth/logout',{},{
                 withCredentials: true
             }
             );
             console.log(response.data.message)
             if(response.data.message){
+                auth.deleteAll();
+                cart.changeEmail("");
+                cart.changeCart([])
                 navigate('/');
             }
             else{

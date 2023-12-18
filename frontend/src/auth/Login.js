@@ -3,10 +3,12 @@ import { useRef,useState,useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "../api/Axios";
+import { CartContext } from "../Context/CartContext";
 const LOGIN_URL = '/auth/login';
 
 export default function Login() {
     const auth = useContext(AuthContext);
+    const cart = useContext(CartContext);
     const emailRef = useRef();
     const errRef = useRef();
     const navigate = useNavigate();
@@ -36,11 +38,14 @@ export default function Login() {
                    
                 }
             );
-
+      
             const useremail = response?.data?.email;
             const firstname = response?.data?.firstname;
             const lastname = response?.data?.lastname;
+            const newCart = response?.data?.cart;
             auth.setAuthInfo(useremail,firstname,lastname);
+            cart.changeEmail(useremail);
+            cart.changeCart(newCart);
             setEmail('');
             setPassword('');
             navigate('/');

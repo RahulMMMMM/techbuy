@@ -1,9 +1,12 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "axios";
+import axios from '../api/Axios';
+
+
 
 export const CartContext = createContext({
     cart: [],
     saved: [],
+    email: "",
     getProductQuantity: ()=>{},
     addOneToCart: ()=>{},
     removeOneFromCart: ()=>{},
@@ -12,7 +15,9 @@ export const CartContext = createContext({
     changeQuantity: ()=>{},
     deleteFromSaved: ()=>{},
     moveToCart: ()=>{},
-    saveForLater: ()=>{}
+    saveForLater: ()=>{},
+    changeEmail: ()=>{},
+    changeCart:()=>{}
 });
 
 
@@ -23,6 +28,7 @@ export default function CartProvider({children}) {
     const [cart, setCart] = useState([]);
     const [data, setData] = useState([]);
     const [saved, setSaved] = useState([]);
+    const [email,setEmail] = useState("");
 
     useEffect(() => {
         const cartData = localStorage.getItem("cart");
@@ -33,6 +39,7 @@ export default function CartProvider({children}) {
     }, []);
     
     useEffect(() => {
+        
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);
 
@@ -48,11 +55,40 @@ export default function CartProvider({children}) {
         }
         
     }, []);
-    
+
     useEffect(() => {
         localStorage.setItem("saved", JSON.stringify(saved));
     }, [saved]);
 
+    useEffect(() => {
+        const fetchCart= async()=>{
+            try{
+                const response = await axios.get('/auth/get-info?info=cart',
+                
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                
+                });
+                setCart(response?.data?.cart);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
+        const emailData = localStorage.getItem("email");
+        if(emailData){
+            setEmail(JSON.parse(emailData));
+            fetchCart();
+        }
+        
+    }, []);
+
+    useEffect(()=>{
+        localStorage.setItem("email", JSON.stringify(email));
+    },[email]);
+    
 
     useEffect(()=>{
         axios.get("http://localhost:4000/products").then((response) => {
@@ -60,23 +96,26 @@ export default function CartProvider({children}) {
           })
     },[]);
 
-    function addOneToCart(id){
+    async function addOneToCart(id){
         const quantity = getProductQuantity(id)
         const product = data.find(product=>product._id===id)
         if(quantity===undefined){
-            setCart([...cart,{
+            const newCart = [...cart,{
                 ...product,
                 quantity:1
-            }]);
-            
+            }];
+            setCart(newCart);
+            changeCartDb(newCart);
         }
         else{
-            setCart((prev)=>{
-                return cart.map((product)=>{
+            const newCart = cart.map((product)=>{
                     product.quantity = product._id === id ? product.quantity+1 : product.quantity;
-                    return product;
-                })
-            })
+                    return product;})
+            
+            setCart(prev=>newCart);
+
+            changeCartDb(newCart);
+            
             
         }
 
@@ -86,18 +125,23 @@ export default function CartProvider({children}) {
         const product = data.find(product=>product._id===id)
         const prodQuantity = getProductQuantity(id)
         if(prodQuantity===undefined){
-            setCart([...cart,{
+            const newCart =[...cart,{
                 ...product,
                 quantity:quantity
-            }]);
+            }];
+
+            setCart(newCart);
+            changeCartDb(newCart);
         }
         else{
-            setCart((prev)=>{
-                return cart.map((product)=>{
+            const newCart = cart.map((product)=>{
                     product.quantity = product._id === id ? product.quantity+quantity : product.quantity;
                     return product;
-                })
+            
             })
+
+            setCart(prev=>newCart);
+            changeCartDb(newCart);
             
         }
 
@@ -109,16 +153,21 @@ export default function CartProvider({children}) {
             cart.find((product)=>{
                 product.quantity = product._id === id ? product.quantity-1 : product.quantity;
             })
+            changeCartDb(cart);
         }
         else{
             deleteFromCart(id);
+            changeCartDb(cart);
         }
     }
 
     function deleteFromCart(id){
-        setCart(cart.filter((product)=>{
+        const newCart = cart.filter((product)=>{
             return product._id !== id;
-        }));
+        });
+
+        setCart(newCart);
+        changeCartDb(newCart);
     }
 
     function getCartTotal(){
@@ -179,6 +228,30 @@ export default function CartProvider({children}) {
         deleteFromCart(id);
     }
 
+    function changeEmail(email){
+        setEmail(email);
+    }
+
+    async function changeCartDb(newCart){
+        
+        try{
+            const result = await axios.post("/auth/update-cart",
+            {email,newCart},
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+         );
+        }
+        catch(err){
+            console.log(err);
+        } 
+
+    }
+
+    function changeCart(newCart){
+        setCart(newCart);
+    }
+
     const contextValue = {
         cart,
         saved,
@@ -191,7 +264,9 @@ export default function CartProvider({children}) {
         getCartQuantity,
         deleteFromSaved,
         moveToCart,
-        saveForLater
+        saveForLater,
+        changeEmail,
+        changeCart
     }
 
     return(

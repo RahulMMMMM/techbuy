@@ -13,4 +13,16 @@ router.route('/logout')
 router.route('/current-user')
     .get(authController.currentUser)
 
+router.route('/signup')
+    .post(authController.createUser)
+
+router.route('/delete-user')
+    .post(authController.deleteUser)
+
+router.route('/update-cart')
+    .post(authController.changeCart)
+
+router.route('/get-info')
+    .get(authController.getInfo)
+
 module.exports = router

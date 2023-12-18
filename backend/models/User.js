@@ -20,6 +20,18 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
+    addressBook:{
+        type: Array
+    },
+    payments:{
+        type: Array
+    },
+    cart:{
+        type: Array
+    },
+    orders:{
+        type: Array
+    }
 });
 
 module.exports = mongoose.model('user', userSchema);

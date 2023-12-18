@@ -15,6 +15,7 @@ import Logout from "./auth/Logout";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import UserRoute from "./components/UserRoute";
+import Order from "./pages/Order";
 
 
 
@@ -43,7 +44,7 @@ export default function App() {
               <Route path="login" element={<Login />} />
               <Route path="product" element={<ProductPage/>} />
               <Route path="signup" element={<Signup />} />
-
+              <Route path="order-confirmed" element={<Order />} />
               {/*Private routes*/}
               <Route path="myaccount" element={<UserRoute />}>
                 <Route path="dashboard" element={<Dashboard />} />

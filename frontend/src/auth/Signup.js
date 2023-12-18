@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef,useState,useEffect,useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "../api/Axios";
@@ -16,6 +16,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [cnfrmPassword, setCnfrmPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         emailRef.current.focus();
@@ -48,7 +49,7 @@ export default function Login() {
                 setCnfrmPassword('');
 
     
-                window.location.assign('http://localhost:3000/');
+                navigate('http://localhost:3000/');
             } catch(err){
                 const errorMsg = err.response.data.message;
                 setErrMsg(errorMsg);

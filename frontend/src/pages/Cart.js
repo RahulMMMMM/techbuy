@@ -3,6 +3,7 @@ import CartProductCard from "../components/CartProductCard";
 import { CartContext } from "../Context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import SavedProductCard from "../components/SavedProductCard";
+import axios from "../api/Axios";
 
 
 export default function Cart(){
@@ -14,26 +15,32 @@ export default function Cart(){
     const totalNoTax = (subtotal > 50 || subtotal === 0)? subtotal : subtotal+21;
     const total = (Math.trunc((totalNoTax*1.07)*100)/100);
 
+
     const routeChange = () =>{ 
         const path = '/'; 
         navigate(path);
       }
       
+    
 
-    const checkout = async ()=>{
-        await fetch('http://localhost:4000/checkout',{
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({items: cart.cart})
-        }).then((res)=>{
-            return res.json();
-        }).then((res)=>{
-            if(res.url){
-                window.location.assign(res.url);
+    const checkout = async (e)=>{
+        e.preventDefault();
+
+        try{
+            const response = await axios.post('http://localhost:4000/checkout',
+            {items: cart.cart},
+            {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const url = response?.data?.url;
+            console.log(url)
+            if(url){
+                window.location.assign(url);
             }
-        })
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 
     return(
@@ -74,7 +81,7 @@ export default function Cart(){
                 <hr />
                 <div className="order-summary">
                     <h4>Subtotal</h4>
-                    <h4>${subtotal}</h4>
+                    <h4>${(subtotal).toFixed(2)}</h4>
                 </div>
                 <div className="order-summary">
                     <h4>Shipping</h4>
@@ -82,12 +89,12 @@ export default function Cart(){
                 </div>
                 <div className="order-summary">
                     <h4>Estimated Sales Tax</h4>
-                    <h4>${(Math.trunc((totalNoTax*.07)*100)/100)}</h4>
+                    <h4>${(Math.trunc((totalNoTax*.07)*100)/100).toFixed(2)}</h4>
                 </div>
                 <hr />
                 <div className="order-summary">
                     <h2>Total</h2>
-                    <h2>${total}</h2>
+                    <h2>${total.toFixed(2)}</h2>
                 </div>
                 {cart.cart.length>0?<button className="checkout-button" onClick={checkout}>Checkout</button>:<button className="continue-shop-button" onClick={routeChange}>Continue Shopping</button>}
             </div>

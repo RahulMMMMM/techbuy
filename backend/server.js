@@ -29,12 +29,9 @@ app.use(
 
 //routing
 app.use('/auth', require('./routes/authRoutes'))
-app.use('/users', require('./routes/userRoutes'))
 app.use('/products', require('./routes/productRoutes'))
 
-app.use(function(err,req,res,next){
-    res.status(500).send(err.message);
-})
+
 
 
 //payment
@@ -49,14 +46,15 @@ app.post("/checkout", async (req, res)=>{
           }
       )
   });
-
   const session = await stripe.checkout.sessions.create({
       line_items : lineItems,
       mode: "payment",
-      success_url: "http://localhost:3000/sucess",
-      cancel_url: "http://localhost:3000/cart"
+      success_url: "http://localhost:3000/order-confirmed",
+      cancel_url: "http://localhost:3000/cart",
+      
   })
-
+   
+  return res.json({url:session.url})
   
 
 }); 

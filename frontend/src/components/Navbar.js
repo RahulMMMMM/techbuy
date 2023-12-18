@@ -28,6 +28,9 @@ export default function Navbar(props){
                 <button type='submit' className='search-button'><SearchIcon /></button>
             </form>
             <div className='left-navbar-container'>
+                {
+                    auth.auth?.firstname?.length > 0 ? <p className="nav-greeting">Hello {auth.auth.firstname}</p> : ''
+                }
                 <Link to='myaccount/dashboard' className='cart-link-container' >
                     <AccountCircleIcon  style={{fontSize: "2rem"}} />
                     <a>Account</a>
