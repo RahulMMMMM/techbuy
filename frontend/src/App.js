@@ -16,7 +16,10 @@ import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import UserRoute from "./components/UserRoute";
 import Order from "./pages/Order";
-
+import LoginSecurity from "./Account/LoginSecurity";
+import Orders from "./Account/Orders";
+import Addresses from "./Account/Addresses";
+import Payments from "./Account/Payments";
 
 
 export default function App() {
@@ -49,6 +52,10 @@ export default function App() {
               <Route path="myaccount" element={<UserRoute />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="logout" element={<Logout />} />
+                <Route path="login&security" element={<LoginSecurity />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="addresses" element={<Addresses />} />
+                <Route path="payments" element={<Payments />} />
               </Route>
                 
 

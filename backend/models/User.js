@@ -31,6 +31,9 @@ const userSchema = new Schema({
     },
     orders:{
         type: Array
+    },
+    saved:{
+        type:Array
     }
 });
 

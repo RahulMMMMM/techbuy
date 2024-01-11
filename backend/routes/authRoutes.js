@@ -22,7 +22,11 @@ router.route('/delete-user')
 router.route('/update-cart')
     .post(authController.changeCart)
 
+router.route('/update-saved')
+    .post(authController.changeSaved)
+
 router.route('/get-info')
     .get(authController.getInfo)
+
 
 module.exports = router

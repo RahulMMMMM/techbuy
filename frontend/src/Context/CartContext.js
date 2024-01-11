@@ -17,7 +17,9 @@ export const CartContext = createContext({
     moveToCart: ()=>{},
     saveForLater: ()=>{},
     changeEmail: ()=>{},
-    changeCart:()=>{}
+    changeCart:()=>{},
+    changeSaved:()=>{},
+    clearCart:()=>{}
 });
 
 
@@ -32,15 +34,21 @@ export default function CartProvider({children}) {
 
     useEffect(() => {
         const cartData = localStorage.getItem("cart");
-        if(cartData){
+        const emailData = localStorage.getItem("email");
+        if(cartData&&JSON.parse(emailData)===""){
             setCart(JSON.parse(cartData));
         }
         
     }, []);
     
     useEffect(() => {
-        
-        localStorage.setItem("cart", JSON.stringify(cart));
+        const emailData = localStorage.getItem("email");
+        if(JSON.parse(emailData)===""){
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+        else{
+            localStorage.setItem("cart", JSON.stringify([]));
+        }
     }, [cart]);
 
     function getProductQuantity(id){
@@ -50,14 +58,22 @@ export default function CartProvider({children}) {
 
     useEffect(() => {
         const savedData = localStorage.getItem("saved");
-        if(savedData){
+        const emailData = localStorage.getItem("email");
+        if(savedData&&JSON.parse(emailData)===""){
             setSaved(JSON.parse(savedData));
         }
         
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("saved", JSON.stringify(saved));
+        const emailData = localStorage.getItem("email");
+        if(JSON.parse(emailData)===""){
+            localStorage.setItem("saved", JSON.stringify(saved));
+        }
+        else{
+            localStorage.setItem("saved", JSON.stringify([]));
+        }
+        
     }, [saved]);
 
     useEffect(() => {
@@ -78,9 +94,34 @@ export default function CartProvider({children}) {
         }
 
         const emailData = localStorage.getItem("email");
-        if(emailData){
+        if(JSON.parse(emailData)!==""){
             setEmail(JSON.parse(emailData));
             fetchCart();
+        }
+        
+    }, []);
+
+    useEffect(() => {
+        const fetchSaved= async()=>{
+            try{
+                const response = await axios.get('/auth/get-info?info=saved',
+                
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                
+                });
+                setSaved(response?.data?.saved);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
+        const emailData = localStorage.getItem("email");
+        if(JSON.parse(emailData)!==""){
+            setEmail(JSON.parse(emailData));
+            fetchSaved();
         }
         
     }, []);
@@ -193,39 +234,53 @@ export default function CartProvider({children}) {
         if(product===undefined){
             const productInfo = data.find(product=>product._id===id)
 
-            setSaved([...saved,{
+            const newSaved = [...saved,{
                 ...productInfo,
                 quantity:quantity
-            }]);
+            }];
+
+            setSaved(newSaved);
+            changeSavedDb(newSaved);
             
         }
         else{
-            setSaved((prev)=>{
-                return saved.map((product)=>{
-                    product.quantity = product._id === id ? quantity : product.quantity;
-                    return product;
-                })
+            const newSaved = saved.map((product)=>{
+                product.quantity = product._id === id ? quantity : product.quantity;
+                return product;
             })
+
+            setSaved((prev)=>newSaved);
+            changeSavedDb(newSaved)
             
         }
 
     }
 
+    function clearCart(){
+        setCart(prev=>[]);
+        changeCartDb(cart);
+    }
+
     function deleteFromSaved(id){
-        setSaved(saved.filter((product)=>{
+        const newSaved = saved.filter((product)=>{
             return product._id !== id;
-        }));
+        });
+
+        setSaved(newSaved);
+        changeSavedDb(newSaved);
     }
     
     function moveToCart(id,quantity){
         console.log(quantity)
         addMultipleToCart(id,quantity);
         deleteFromSaved(id);
+        
     }
 
     function saveForLater(id,quantity){
         addToSaved(id,quantity);
         deleteFromCart(id);
+        
     }
 
     function changeEmail(email){
@@ -233,23 +288,49 @@ export default function CartProvider({children}) {
     }
 
     async function changeCartDb(newCart){
-        
-        try{
-            const result = await axios.post("/auth/update-cart",
-            {email,newCart},
-            {
-                headers: { 'Content-Type': 'application/json' }
+        const emailData = localStorage.getItem("email");
+        if(JSON.parse(emailData)!==""){
+            try{
+                const result = await axios.post("/auth/update-cart",
+                {email,newCart},
+                {
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
             }
-         );
+            catch(err){
+                console.log(err);
+            } 
         }
-        catch(err){
-            console.log(err);
-        } 
+
+    }
+
+    async function changeSavedDb(newSaved){
+        const emailData = localStorage.getItem("email");
+        if(JSON.parse(emailData)!==""){
+            try{
+                const result = await axios.post("/auth/update-saved",
+                {email,newSaved},
+                {
+                    headers: { 'Content-Type': 'application/json' }
+                }
+             );
+            }
+            catch(err){
+                console.log(err);
+            } 
+        }
+        
 
     }
 
     function changeCart(newCart){
-        setCart(newCart);
+        console.log(newCart)
+        setCart(prev=>newCart);
+    }
+
+    function changeSaved(newSaved){
+        setSaved(newSaved);
     }
 
     const contextValue = {
@@ -266,7 +347,9 @@ export default function CartProvider({children}) {
         moveToCart,
         saveForLater,
         changeEmail,
-        changeCart
+        changeCart,
+        changeSaved,
+        clearCart
     }
 
     return(

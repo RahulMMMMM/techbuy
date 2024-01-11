@@ -42,10 +42,13 @@ export default function Login() {
             const useremail = response?.data?.email;
             const firstname = response?.data?.firstname;
             const lastname = response?.data?.lastname;
+            console.log(lastname)
             const newCart = response?.data?.cart;
+            const newSaved = response?.data?.saved;
             auth.setAuthInfo(useremail,firstname,lastname);
             cart.changeEmail(useremail);
             cart.changeCart(newCart);
+            cart.changeSaved(newSaved);
             setEmail('');
             setPassword('');
             navigate('/');

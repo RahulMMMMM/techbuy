@@ -7,6 +7,16 @@ body,html{
     background-color: #131a22;
 }
 
+a{
+    text-decoration: none;
+    color: #0457c8;
+}
+
+a:hover{
+    text-decoration: underline;
+    color: #c55e18;
+}
+
 button{
     cursor: pointer;
 }
@@ -16,7 +26,7 @@ button:hover {
 }
 
 .navbar{
-    background-color: #131a22;
+    background-color: #040410;
     color: white;
     display: flex;
     align-items: center;
@@ -502,4 +512,151 @@ button:hover {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 0px;
+}
+
+.dash-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.a-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    min-width: 300px;
+    max-width: 300px;
+    border: solid rgb(212, 208, 208) 1px;
+    margin: 10px;
+    color: black;
+}
+
+
+.a-box-container{
+    display: flex;
+    flex-direction: row;
+    max-width: 1000px;
+    flex-wrap: wrap;
+}
+
+.confirmed-container{
+    background-color: white;
+}
+
+.order-container{
+    background-color: white;
+    padding-left: 700px;
+    padding-right: 700px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.order-card-container{
+    background-color: white;
+    margin-top: 20px;
+    min-width: 80%;
+    max-width: 80%;
+}
+
+.order-card-header{
+    border-top: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    background-color: #f8f4f4;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.order-card-header p {
+    margin-left: 5px;
+}
+
+.order-card-body{
+    border: 1px solid lightgray;
+    margin-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.order-product-details{
+    display: flex;
+    flex-direction: row;
+    padding:10px;
+    border-bottom: 1px solid lightgray;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.order-product-details img{
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: scale-down;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.order-card-body h2{
+    margin: 10px;
+}
+
+.order-cards-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-card-body a{
+    margin: 10px;
+}
+
+.logsec-container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.edit-button{
+    background-color: white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    box-shadow: 1px 0.5px rgb(184, 184, 184);
+    max-height: 30px;
+    min-height: 30px;
+    max-width: 120px;
+    min-width: 120px;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    border-bottom: 1px solid lightgray;
+}
+
+.log-info-container{
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    min-width: 20%;
+    max-width: 20%;
+}
+
+.info-container-bottom{
+    display: flex;
+    justify-content: center;
+    padding: 30px;
 }

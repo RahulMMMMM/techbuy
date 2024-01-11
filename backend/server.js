@@ -30,6 +30,7 @@ app.use(
 //routing
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/products', require('./routes/productRoutes'))
+app.use('/orders', require('./routes/orderRoutes'))
 
 
 
@@ -49,15 +50,27 @@ app.post("/checkout", async (req, res)=>{
   const session = await stripe.checkout.sessions.create({
       line_items : lineItems,
       mode: "payment",
-      success_url: "http://localhost:3000/order-confirmed",
+      success_url: "http://localhost:3000/order-confirmed?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:3000/cart",
+      billing_address_collection: 'required'
       
   })
    
-  return res.json({url:session.url})
+  return res.json({url:session.url,products:items});
   
 
 }); 
+
+app.get('/order/success', async (req, res) => {
+    const {session_id} = req.query;
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    const customer_details = session.customer_details
+    const lineItems = await stripe.checkout.sessions.listLineItems(session_id);
+
+
+  
+    res.json({customer:customer_details,lineItems:lineItems,total:session.amount_total});
+});
 
 mongoose.connection.once('open',()=>{
     console.log('Connected to Mongodb')

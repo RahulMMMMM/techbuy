@@ -2,6 +2,7 @@ const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const connectDB = require('../config/dbConn');
 
 const login = asyncHandler(async (req,res,next)=>{
     const {email, password} = req.body;
@@ -23,7 +24,7 @@ const login = asyncHandler(async (req,res,next)=>{
     res.cookie("token",token,{
         httpOnly: true,
     })
-    res.json({email:user.email,firstname:user.firstname,lastname:user.lastname,cart:user.cart});
+    res.json({email:user.email,firstname:user.firstname,lastname:user.lastname,cart:user.cart,saved:user.saved});
     next();
 })
 
@@ -123,6 +124,15 @@ const changeCart = asyncHandler(async (req, res)=>{
     return res.status(400).json({message:'User not found'});
 })
 
+const changeSaved = asyncHandler(async (req, res)=>{
+    const {email, newSaved} = req.body;
+    const result = await User.updateOne({email:email},{$set:{saved:newSaved}})
+
+    if(result){
+        console.log("success")
+    }
+})
+
 const getInfo = asyncHandler(async(req,res)=>{
     const {token} = req.cookies
     const {info} = req.query;
@@ -132,11 +142,12 @@ const getInfo = asyncHandler(async(req,res)=>{
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).exec()
+    const user = await User.findById(decoded.id).exec();
 
     if(user){
         if(info==="email") return res.json({email:user.email});
-        if(info==="cart") return res.json({cart:user.cart})
+        if(info==="cart") return res.json({cart:user.cart});
+        if(info==="saved") return res.json({saved:user.saved});
         
     }
 
@@ -150,5 +161,6 @@ module.exports = {
     createUser,
     deleteUser,
     changeCart,
+    changeSaved,
     getInfo
 }

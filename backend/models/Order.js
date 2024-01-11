@@ -8,13 +8,12 @@ const orderSchema = new Schema({
         unique:false
     },
     address:{
-        type:String,
+        type:Object,
         required:true
     },
     buyer_id:{
         type:String,
-        required:true
-
+        required:false
     },
     buyer_email:{
         type:String,
@@ -29,6 +28,9 @@ const orderSchema = new Schema({
         required:true
     },
     order_status:{
+        type:String
+    },
+    order_number:{
         type:String
     }
 });

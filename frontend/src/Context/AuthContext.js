@@ -22,7 +22,8 @@ export const AuthContextProvider = ({children}) => {
     useEffect(() => {
         localStorage.setItem("authData", JSON.stringify({
             "firstname": auth.firstname,
-            "email": auth.email
+            "email": auth.email,
+            "lastname":auth.lastname
         }));
     }, [auth]);
 

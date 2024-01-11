@@ -35,6 +35,7 @@ export default function Cart(){
             const url = response?.data?.url;
             console.log(url)
             if(url){
+      
                 window.location.assign(url);
             }
         }
