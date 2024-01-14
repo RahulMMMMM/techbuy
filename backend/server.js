@@ -7,10 +7,13 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const cookieParser = require('cookie-parser');
 const stripe = require('stripe')(process.env.STRIPE_ID);
-const session = require('express-session');
+
+
+
 
 //middleware
 connectDB();
+
 
 app.use(express.json())
 app.use(cookieParser());
@@ -71,6 +74,9 @@ app.get('/order/success', async (req, res) => {
   
     res.json({customer:customer_details,lineItems:lineItems,total:session.amount_total});
 });
+
+
+  
 
 mongoose.connection.once('open',()=>{
     console.log('Connected to Mongodb')

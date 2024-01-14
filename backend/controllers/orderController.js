@@ -58,7 +58,7 @@ const createOrder = asyncHandler(async (req, res)=>{
         buyer_email:email,
         order_date:today,
         order_total:total,
-        order_status:"confirmed",
+        order_status:"Confirmed",
         order_number:orderNumber
     };
 

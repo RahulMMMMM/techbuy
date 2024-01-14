@@ -198,7 +198,7 @@ button:hover {
     margin-left: 7%;
 }
 
-.home-container{
+.basic-container{
     display: flex;
     justify-content: center;
     background-color: white;

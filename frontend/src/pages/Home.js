@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="home-container">
+      <div className="basic-container">
         <div className="product-container"> 
           {products.map((product)=>{
             return(

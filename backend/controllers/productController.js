@@ -37,8 +37,63 @@ const addProducts = asyncHandler(async (req, res)=>{
     return res.status(200).json(result);
 })
 
+const searchProducts = asyncHandler(async(req,res)=>{
+    const query = req.query.k;
+    try{
+        const result = await Product.aggregate([
+            {$search: {
+                index: "product-search-index",
+                text: {
+                  query: query,
+                  path: {
+                    wildcard: "*"
+                  },
+                  fuzzy: {}
+                }
+              }}
+        ])
+        
+        if(result){
+            return res.status(200).json({products:result})
+        }
+        return res.status(404).json({message:'No results found'});
+    }
+    catch(err){
+        console.log(err);
+    }
+});
+
+const autoComplete = asyncHandler(async(req,res)=>{
+    const query = req.query.k;
+    try{
+        const result = await Product.aggregate([
+            {$search: {
+                index: "products-autocomplete-index",
+                autocomplete: {
+                    query: query,
+                    path: "title",
+                    tokenOrder: "any",
+                    fuzzy: {},
+                }}
+            }
+        ])
+
+        if(result){
+            return res.status(200).json({products:result})
+        }
+        return res.status(404).json({message:'No results found'});
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+
 module.exports = {
     getProducts,
     getProductById,
-    addProducts
+    addProducts,
+    searchProducts,
+    autoComplete
+    
 }

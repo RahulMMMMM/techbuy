@@ -18,7 +18,7 @@ export default function Orders() {
         })
         const orderdata= response?.data?.orders;
         console.log(orderdata)
-        setOrders(orderdata)
+        setOrders(orderdata.reverse())
       }
       catch(err){
         console.log(err)

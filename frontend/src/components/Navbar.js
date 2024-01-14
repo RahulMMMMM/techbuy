@@ -7,15 +7,26 @@ import SearchIcon from '@mui/icons-material/Search';
 import { CartContext } from '../Context/CartContext';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AuthContext } from '../Context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar(props){
     const cart = useContext(CartContext);
     const [curSection, setCurSection] = useState("");
     const auth = useContext(AuthContext);
+    const [searchParams,setSearchParams] = useState("");
 
     const cartQuantity = cart.getCartQuantity();
 
+    const navigate = useNavigate();
 
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        if(searchParams.length>0){
+            
+            navigate(`/search?k=${searchParams}`, {replace:true});
+            navigate(0)
+        }
+    }
 
     return(
         <>
@@ -23,8 +34,8 @@ export default function Navbar(props){
             <a href='/' onClick={()=>{setCurSection("")}} ><img src={logo} className='logo' /></a>
             
                
-            <form className='search-form'>
-                <input type='text' placeholder=' Search anything!' className='searchbox' />
+            <form className='search-form' onSubmit={handleSubmit} >
+                <input type='text' placeholder=' Search anything!' className='searchbox' onChange={(e)=> setSearchParams(e.target.value)}  />
                 <button type='submit' className='search-button'><SearchIcon /></button>
             </form>
             <div className='left-navbar-container'>

@@ -12,4 +12,10 @@ router.route('/')
 router.route('/product')
     .get(productController.getProductById)
 
+ router.route('/search')
+    .get(productController.searchProducts)   
+
+router.route('/autocomplete')
+    .get(productController.autoComplete)
+
 module.exports = router

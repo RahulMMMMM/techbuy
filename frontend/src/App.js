@@ -11,7 +11,6 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { AuthContextProvider } from "./Context/AuthContext";
 import Dashboard from "./Account/Dashboard";
-import Logout from "./auth/Logout";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import UserRoute from "./components/UserRoute";
@@ -20,6 +19,7 @@ import LoginSecurity from "./Account/LoginSecurity";
 import Orders from "./Account/Orders";
 import Addresses from "./Account/Addresses";
 import Payments from "./Account/Payments";
+import SearchResult from "./pages/SearchResult";
 
 
 export default function App() {
@@ -48,10 +48,10 @@ export default function App() {
               <Route path="product" element={<ProductPage/>} />
               <Route path="signup" element={<Signup />} />
               <Route path="order-confirmed" element={<Order />} />
+              <Route path="search" element={<SearchResult />} />
               {/*Private routes*/}
               <Route path="myaccount" element={<UserRoute />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="logout" element={<Logout />} />
                 <Route path="login&security" element={<LoginSecurity />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="addresses" element={<Addresses />} />
