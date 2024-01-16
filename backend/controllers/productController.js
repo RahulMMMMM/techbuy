@@ -54,6 +54,9 @@ const searchProducts = asyncHandler(async(req,res)=>{
         ])
         
         if(result){
+            if(result.length>10){
+                return res.status(200).json({products:result.slice(0,10)})
+            }
             return res.status(200).json({products:result})
         }
         return res.status(404).json({message:'No results found'});

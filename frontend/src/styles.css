@@ -121,7 +121,7 @@ button:hover {
 
 .searchbox{
     height: 40px;
-    width: 700px;
+    width: 1400px;
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
     font-size: 17px;
@@ -659,4 +659,40 @@ button:hover {
     display: flex;
     justify-content: center;
     padding: 30px;
+}
+
+.autocomplete-results{
+    background-color: white;
+    color: black;
+    position: absolute;
+    z-index: 3;
+    width: 1405px;
+}
+
+.autocomplete-result{
+    font-weight: bold;
+    padding: 5px;
+}
+
+.autocomplete-result-selected{
+    background-color: gray;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.autocomplete-result:hover{
+    background-color: gray;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.resultsOverlay {
+    position: absolute;
+    left: 0;
+    height: 300vh;
+    width: 100vw;
+    z-index: 2;
+    background-color: #5b5c5c;
+    opacity: 0.5;
+    top: 96px;
 }

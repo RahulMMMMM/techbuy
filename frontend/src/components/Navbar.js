@@ -3,11 +3,10 @@ import "../styles.css"
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../images/logo.png'
 import { useContext, useEffect, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
 import { CartContext } from '../Context/CartContext';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AuthContext } from '../Context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 export default function Navbar(props){
     const cart = useContext(CartContext);
@@ -17,27 +16,15 @@ export default function Navbar(props){
 
     const cartQuantity = cart.getCartQuantity();
 
-    const navigate = useNavigate();
 
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-        if(searchParams.length>0){
-            
-            navigate(`/search?k=${searchParams}`, {replace:true});
-            navigate(0)
-        }
-    }
 
     return(
         <>
         <nav className='navbar'>
             <a href='/' onClick={()=>{setCurSection("")}} ><img src={logo} className='logo' /></a>
             
-               
-            <form className='search-form' onSubmit={handleSubmit} >
-                <input type='text' placeholder=' Search anything!' className='searchbox' onChange={(e)=> setSearchParams(e.target.value)}  />
-                <button type='submit' className='search-button'><SearchIcon /></button>
-            </form>
+            <SearchBar />   
+            
             <div className='left-navbar-container'>
                 {
                     auth.auth?.firstname?.length > 0 ? <p className="nav-greeting">Hello {auth.auth.firstname}</p> : ''
