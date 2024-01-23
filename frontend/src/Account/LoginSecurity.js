@@ -1,7 +1,7 @@
 import {useContext} from "react"
 import { AuthContext } from "../Context/AuthContext";
 import { CartContext } from "../Context/CartContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../api/Axios";
 
 export default function LoginSecurity() {
@@ -43,21 +43,21 @@ export default function LoginSecurity() {
                 <strong>Name:</strong>
                 <p>{auth.auth.firstname+" "+auth.auth.lastname}</p>
               </div>
-              <button className="edit-button">Edit</button>
+              <Link to="/myaccount/change-info?info=name"><button className="edit-button">Edit</button></Link>
             </div>
             <div className="info-container">
               <div>
                 <strong>Email:</strong>
                 <p>{auth.auth.email}</p>
               </div>
-              <button className="edit-button">Edit</button>
+              <Link to="/myaccount/change-info?info=email"><button className="edit-button">Edit</button></Link>
             </div>
             <div className="info-container">
               <div>
                 <strong>Password:</strong>
                 <p>********</p>
               </div>
-              <button className="edit-button">Edit</button>
+              <Link to="/myaccount/change-password"><button className="edit-button">Edit</button></Link>
             </div>
             <div className="info-container-bottom">
               <button className="edit-button" onClick={logout}>Logout</button>

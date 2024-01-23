@@ -694,5 +694,23 @@ button:hover {
     z-index: 2;
     background-color: #5b5c5c;
     opacity: 0.5;
-    top: 96px;
+    top: 94px;
+}
+
+.change-info-container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.change-info-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.change-info-container-two{
+    max-width: 30%;
+    min-width: 30%;
 }

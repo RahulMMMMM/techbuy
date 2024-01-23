@@ -79,23 +79,64 @@ const createUser = asyncHandler(async (req, res)=>{
 })
 
 const updateUser = asyncHandler(async (req, res)=>{
-    const {email,password,newPassword} = req.body;
+    const {type,info} = req.body;
 
-    if(!email||!password||!newPassword){
-        return res.status(400).json({message:'Invalid Data'});
-    }
-    const user = await User.findOne({email}).exec();
+    const {token} = req.cookies
 
-    if(!user){
-        return res.status(400).json({message:'User not found'});
+    if(token===undefined){
+        return res.status(500).json({message:'Unauthorized user'})
     }
-    const compare = await bcrypt.compare(password,user.password);
-    if(compare===true){
-        const hashedNewPwd = await bcrypt.hash(newPassword,10);
-        user.password = hashedNewPwd;
-        const updateUser = await user.save();
-        return res.json({message: 'Account password updated'});
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).exec()
+
+    if(type==="name"){
+        const firstname = info.slice(0,info.indexOf(" "));
+        const lastname = info.slice(info.indexOf(" ")+1);
+
+        const result = await user.updateOne({firstname:firstname,lastname:lastname});
+
+        if(result){
+            res.status(200).json({message:"successfully changed name"});
+        }
+
+        res.status(400).json({message:"Unable to change name"});
     }
+    else if(type==="email"){
+        const email = info;
+
+        const result = await user.updateOne({email:email});
+
+        if(result){
+            res.status(200).json({message:"successfully changed email"});
+        }
+
+        res.status(400).json({message:"Unable to change email"});
+    }
+    else{
+        const newPassword = info[0];
+        const cnfrmPassword = info[1];
+
+        const compare = await bcrypt.compare(cnfrmPassword,user.password);
+        if(compare===true){
+            const hashedPwd = await bcrypt.hash(newPassword,10); 
+
+            const result = await User.updateOne({password:hashedPwd});
+
+            if(result){
+                res.status(200).json({message:"successfully changed password"});
+            }
+
+            res.status(400).json({message:"Unable to change password"});
+        }
+        else{
+            res.status(401).json({message:"Incorrect password"});
+        }
+
+    }
+
+    return res.status(400).json({message:"Nothing Changed"});
+
 })
 
 const deleteUser = asyncHandler(async (req, res)=>{
@@ -162,5 +203,6 @@ module.exports = {
     deleteUser,
     changeCart,
     changeSaved,
-    getInfo
+    getInfo,
+    updateUser
 }

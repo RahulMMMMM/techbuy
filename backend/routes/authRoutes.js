@@ -28,5 +28,7 @@ router.route('/update-saved')
 router.route('/get-info')
     .get(authController.getInfo)
 
+router.route('/update-user')
+    .post(authController.updateUser)
 
 module.exports = router

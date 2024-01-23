@@ -20,6 +20,8 @@ import Orders from "./Account/Orders";
 import Addresses from "./Account/Addresses";
 import Payments from "./Account/Payments";
 import SearchResult from "./pages/SearchResult";
+import ChangeInfo from "./Account/ChangeInfo";
+import ChangePassword from "./Account/ChangePassword";
 
 
 export default function App() {
@@ -52,7 +54,9 @@ export default function App() {
               {/*Private routes*/}
               <Route path="myaccount" element={<UserRoute />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="login&security" element={<LoginSecurity />} />
+                <Route path="login-security" element={<LoginSecurity />} />                       
+                <Route path="change-info" element={<ChangeInfo />} />
+                <Route path="change-password" element={<ChangePassword />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="addresses" element={<Addresses />} />
                 <Route path="payments" element={<Payments />} />
