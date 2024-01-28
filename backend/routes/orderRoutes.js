@@ -8,5 +8,10 @@ router.route('/create-order')
 router.route('/get-orders')
     .get(orderController.getOrders)
 
+router.route('/get-order')
+    .get(orderController.getOrder)
+
+router.route('/get-session-id')
+    .get(orderController.getSessionId)
 
 module.exports = router

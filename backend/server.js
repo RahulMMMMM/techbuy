@@ -64,17 +64,6 @@ app.post("/checkout", async (req, res)=>{
 
 }); 
 
-app.get('/order/success', async (req, res) => {
-    const {session_id} = req.query;
-    const session = await stripe.checkout.sessions.retrieve(session_id);
-    const customer_details = session.customer_details
-    const lineItems = await stripe.checkout.sessions.listLineItems(session_id);
-
-
-  
-    res.json({customer:customer_details,lineItems:lineItems,total:session.amount_total});
-});
-
 
   
 

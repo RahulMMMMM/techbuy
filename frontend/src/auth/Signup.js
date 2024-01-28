@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRef,useState,useEffect,useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "../api/Axios";
-const SIGNUP_URL = '/users/signup';
+const SIGNUP_URL = '/auth/signup';
 
 export default function Login() {
     const {setAuth} = useContext(AuthContext);

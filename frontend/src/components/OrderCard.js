@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 export default function OrderCard(props){
 
     const order = props.order;
-    console.log(order)
-    console.log(order.order_date)
+
 
     const dateObject = new Date(order.order_date);
 
