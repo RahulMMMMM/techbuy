@@ -119,11 +119,12 @@ const getOrder = asyncHandler(async(req,res)=>{
 
     if(order){
         
-        return res.status(200).json({message:'Order Successful',order:{
+        return res.status(200).json({order:{
             product_list:order.product_list,
             order_date:order.order_date,
             order_total:order.order_total,
             order_status:order.order_status,
+            order_number:order.order_number
         }})
     } 
     return res.status(400).json({message: 'No orders found'})

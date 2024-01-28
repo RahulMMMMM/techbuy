@@ -101,7 +101,7 @@ export default function Order() {
     return (
       <div className="confirmed-container">
         <h1>Order Confirmation</h1>
-        <h2>Order Number: {}</h2>
+        <h2>Order Number: {order.order_number}</h2>
         <h2>Thank you {customer.name}, your order has been placed.</h2>
         {
           order.product_list !== undefined ? (<OrderCard order={order}/>) : <h1>Order cannot be displayed</h1>
