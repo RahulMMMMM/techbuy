@@ -30,7 +30,8 @@ export default function Cart(){
             const response = await axios.post('http://localhost:4000/checkout',
             {items: cart.cart},
             {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
             });
             const url = response?.data?.url;
             console.log(url)

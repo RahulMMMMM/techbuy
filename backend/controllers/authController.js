@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const connectDB = require('../config/dbConn');
+const stripe = require('stripe')(process.env.STRIPE_ID);
 
 const login = asyncHandler(async (req,res,next)=>{
     const {email, password} = req.body;
@@ -65,13 +66,23 @@ const createUser = asyncHandler(async (req, res)=>{
         return res.status(409).json({message:'Account with email already exists'})
     }
 
+    const customer = await stripe.customers.create({
+        name: firstname+" "+lastname,
+        email: email,
+    });
+
+    if(!customer){
+        return res.status(400).json({message:'Unable to create customer'})
+    }
+
     const hashedPwd = await bcrypt.hash(password,10);
 
-    const userObject = {email,"password":hashedPwd,firstname,lastname}
+    const userObject = {email,"password":hashedPwd,firstname,lastname,stripe_id:customer.id}
 
     const user = await User.create(userObject);
 
     if(user){
+
         return res.status(200).json({message:`New user ${email} created`})
     } else{
         return res.status(400).json({message:'Invalid data received'})
@@ -195,6 +206,65 @@ const getInfo = asyncHandler(async(req,res)=>{
     return res.status(401).json({message: "User not found"})
 })
 
+const changeAddress = asyncHandler(async(req,res)=>{
+    const {token} = req.cookies;
+    const address = req.body.address;
+
+    if(token===undefined){
+        return res.status(500).json({message:'Unauthorized user'})
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).exec();
+
+    if(user){
+        if(user.addressBook.length===0){
+            
+             customer = await stripe.customers.update(
+                user.stripe_id,
+                {
+                    address: {
+                        line1: address.addressLine,
+                        city: address.city,
+                        state: address.state,
+                        postal_code: address.zipcode,
+                        country: address.country
+                    }
+                }
+            );
+            
+        }
+
+        
+        const result = await User.updateOne({_id:decoded.id},{$push:{addressBook:address}}).exec();
+      
+        if(result){
+            return res.status(200).json({message:'Successfully changed address'});
+        }
+        return res.status(200).json({message:'Unable to change address'});
+
+    }
+
+    return res.status(401).json({message: "User not found"})
+})
+
+const getAddresses =asyncHandler(async(req,res)=>{
+    const {token} = req.cookies;
+
+    if(token===undefined){
+        return res.status(500).json({message:'Unauthorized user'})
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).exec();
+    console.log(user.addressBook)
+    if(user){
+        return res.status(200).json({addresses:user.addressBook});
+    }
+
+    return res.status(401).json({message: "User not found"});
+})
+
 module.exports = {
     login,
     logout,
@@ -204,5 +274,7 @@ module.exports = {
     changeCart,
     changeSaved,
     getInfo,
-    updateUser
+    updateUser,
+    changeAddress,
+    getAddresses
 }

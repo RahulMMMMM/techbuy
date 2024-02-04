@@ -22,6 +22,7 @@ import Payments from "./Account/Payments";
 import SearchResult from "./pages/SearchResult";
 import ChangeInfo from "./Account/ChangeInfo";
 import ChangePassword from "./Account/ChangePassword";
+import ChangeAddress from "./Account/ChangeAddress";
 
 
 export default function App() {
@@ -59,6 +60,7 @@ export default function App() {
                 <Route path="change-password" element={<ChangePassword />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="addresses" element={<Addresses />} />
+                <Route path="addresses/add-address" element={<ChangeAddress/>} />
                 <Route path="payments" element={<Payments />} />
               </Route>
                 

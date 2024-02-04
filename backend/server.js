@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const cookieParser = require('cookie-parser');
 const stripe = require('stripe')(process.env.STRIPE_ID);
+const jwt = require('jsonwebtoken');
+const User = require('./models/User');
 
 
 
@@ -41,7 +43,44 @@ app.use('/orders', require('./routes/orderRoutes'))
 //payment
 app.post("/checkout", async (req, res)=>{
   const items = req.body.items;
+  const {token} = req.cookies;
+
+  if(token!==undefined){
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).exec();
+    const customer = await stripe.customers.retrieve(user.stripe_id);
+    const address=customer.address
+   
+    let lineItems = [];
+
+    items.forEach((item) => {
+        lineItems.push(
+            {
+                price: item.stripe_id,
+                quantity: item.quantity
+            }
+        )
+    });
+    const session = await stripe.checkout.sessions.create({
+        customer:user.stripe_id,
+        line_items : lineItems,
+        mode: "payment",
+        success_url: "http://localhost:3000/order-confirmed?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url: "http://localhost:3000/cart",
+        billing_address_collection: 'required',
+        shipping_address_collection: {
+            allowed_countries: ['US', 'CA'], 
+        },
+       
+        
+    })
+     
+    return res.json({url:session.url,products:items});
+  }
+
+    
   let lineItems = [];
+
   items.forEach((item) => {
       lineItems.push(
           {

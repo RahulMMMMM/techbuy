@@ -720,3 +720,35 @@ button:hover {
     flex-direction: column;
     align-items: center;
 }
+
+.add-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 40px;
+    
+}
+
+.new-address{
+    padding: 20px;
+    max-width: 279px;
+    max-height: 279px;
+    min-width: 279px;
+    min-height: 279px;
+    border: solid black 0.5px;
+    margin: 10px;
+}
+
+.change-address-container{
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add2-container{
+    display: flex;
+    flex-direction: row;
+}
+

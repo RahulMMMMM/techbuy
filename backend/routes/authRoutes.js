@@ -31,4 +31,10 @@ router.route('/get-info')
 router.route('/update-user')
     .post(authController.updateUser)
 
+router.route('/add-address')
+    .post(authController.changeAddress)
+
+router.route('/get-addresses')
+    .get(authController.getAddresses)
+
 module.exports = router

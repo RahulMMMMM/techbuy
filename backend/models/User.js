@@ -29,11 +29,11 @@ const userSchema = new Schema({
     cart:{
         type: Array
     },
-    orders:{
-        type: Array
-    },
     saved:{
         type:Array
+    },
+    stripe_id:{
+        type:String
     }
 });
 
